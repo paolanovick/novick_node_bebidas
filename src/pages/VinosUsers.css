@@ -1,0 +1,96 @@
+
+.vinos-marketplace {
+  background-color: #f7f7f7;
+  padding: 3rem 1.5rem;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.marketplace-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+
+.marketplace-galleria {
+  margin: 2rem auto;
+  max-width: 900px;
+}
+
+.galleria-image {
+  border-radius: 12px;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.galleria-image:hover {
+  transform: scale(1.05);
+}
+
+
+.vinos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+
+.vino-card-container {
+  display: flex;
+  justify-content: center;
+}
+
+.vino-card {
+  width: 100%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.vino-card:hover {
+  transform: translateY(-5px);
+}
+
+
+.vino-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.vino-header {
+  text-align: center;
+  color: #34495e;
+  font-weight: bold;
+}
+
+.vino-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vino-footer button{
+  margin: 5px;
+}
+
+
+.dialog-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.p-galleria-thumbnail-container{
+  display: none !important;
+}

@@ -1,0 +1,49 @@
+
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 2rem;
+    color: #333;
+}
+
+
+.homepage-card {
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+}
+
+
+.homepage-card-content {
+    padding: 2rem;
+    text-align: center;
+}
+
+.homepage-image {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.homepage-buttons .p-button {
+    width: 45%;
+}
+
+
+.homepage-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.homepage-footer p {
+    margin: 0.3rem 0;
+}

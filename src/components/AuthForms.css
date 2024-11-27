@@ -1,0 +1,43 @@
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6c757d, #007bff);
+    color: white;
+  }
+  
+
+  .auth-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    max-width: 30rem;
+    width: 100%;
+  }
+  
+  
+  .p-message {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+ 
+  .auth-card .p-button {
+    width: 100%;
+  }
+  
+ 
+  .text-center {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .text-center .p-button-link {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
