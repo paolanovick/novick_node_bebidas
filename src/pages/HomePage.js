@@ -15,7 +15,7 @@ const HomePage = () => {
                 >
                     <div className="homepage-image">
                         <Image 
-                            src="/assets/pao.jpg"  
+                            src="/assets/bp_300.png"  
                             alt="Foto de la alumna" 
                             width="150" 
                             style={{ borderRadius: '50%' }} 

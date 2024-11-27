@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../components/Header'; // Importa el Header
+//import Header from '../components/Header'; // Importa el Header
 import PaginacionBodega from '../components/componentsBodega/paginacionBodega'; // Componente de paginación
 import BuscarBodegaPorNombre from '../components/componentsBodega/buscarBodegaPorNombre'; // Componente de búsqueda por nombre
 import BuscarBodegaPorId from '../components/componentsBodega/buscarBodegaPorId'; // Componente de búsqueda por ID

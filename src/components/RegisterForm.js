@@ -27,6 +27,7 @@ const RegisterForm = () => {
   };
 
   return (
+    
     <div className="auth-container">
       <Card title="Registro de Usuario" className="auth-card">
         <div className="p-fluid">
