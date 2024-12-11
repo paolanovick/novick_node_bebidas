@@ -1,29 +1,36 @@
-import React, { useState, useContext } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
-import { Message } from 'primereact/message';
-import { loginUser } from '../services/userService';
-import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../AuthContext'; 
-import './LoginForm.css'; 
+import React, { useState, useContext } from "react";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
+import { Button } from "primereact/button";
+import { Card } from "primereact/card";
+import { Message } from "primereact/message";
+import { loginUser } from "../services/userService";
+import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../AuthContext";
+import "./LoginForm.css";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); 
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async () => {
     try {
-      setError(null); 
-      const { token, name, email: userEmail } = await loginUser(email, password); 
+      setError(null);
+      const {
+        token,
+        name,
+        email: userEmail,
+        rol,
+      } = await loginUser(email, password);
       login(token, name, userEmail);
-      navigate('/user-dashboard'); 
+      //cambiar user dashboard por dashboard admin
+      if (rol === "admin") navigate("/user-dashboard");
+      else navigate("/vinos");
     } catch (err) {
-      setError('Credenciales incorrectas'); 
+      setError("Credenciales incorrectas");
     }
   };
 
@@ -31,7 +38,7 @@ const LoginForm = () => {
     <div className="login-container">
       <Card
         title="Iniciar Sesión"
-        style={{ width: '25rem' }}
+        style={{ width: "25rem" }}
         className="shadow-3 login-card"
       >
         <div className="p-fluid">
@@ -39,7 +46,9 @@ const LoginForm = () => {
             <Message severity="error" text={error} className="p-mb-3" />
           )}
           <div className="p-field">
-            <label htmlFor="email" className="p-d-block">Email</label>
+            <label htmlFor="email" className="p-d-block">
+              Email
+            </label>
             <InputText
               id="email"
               value={email}
@@ -49,7 +58,9 @@ const LoginForm = () => {
             />
           </div>
           <div className="p-field">
-            <label htmlFor="password" className="p-d-block">Contraseña</label>
+            <label htmlFor="password" className="p-d-block">
+              Contraseña
+            </label>
             <Password
               id="password"
               value={password}
@@ -59,7 +70,7 @@ const LoginForm = () => {
               className="p-inputtext-lg p-d-block"
             />
           </div>
-          <br/>
+          <br />
           <Button
             label="Iniciar Sesión"
             icon="pi pi-sign-in"
@@ -67,7 +78,12 @@ const LoginForm = () => {
             onClick={handleSubmit}
           />
           <div className="p-mt-3 text-center">
-            <p>¿No tienes cuenta? <Link to="/register" className="p-text-primary">Regístrate</Link></p>
+            <p>
+              ¿No tienes cuenta?{" "}
+              <Link to="/register" className="p-text-primary">
+                Regístrate
+              </Link>
+            </p>
           </div>
         </div>
       </Card>
