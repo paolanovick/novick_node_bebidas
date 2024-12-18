@@ -25,10 +25,10 @@ const LoginForm = () => {
         email: userEmail,
         rol,
       } = await loginUser(email, password);
-      login(token, name, userEmail);
+      localStorage.setItem("token", token);
+      login(token, name, userEmail,rol);
       //cambiar user dashboard por dashboard admin
-      if (rol === "admin") navigate("/user-dashboard");
-      else navigate("/vinos");
+      navigate("/user-dashboard");
     } catch (err) {
       setError("Credenciales incorrectas");
     }

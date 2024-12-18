@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getAllVinos, createVino, updateVino, deleteVino } from "../services/vinoServices";
+import {
+  getAllVinos,
+  createVino,
+  updateVino,
+  deleteVino,
+} from "../services/vinoServices";
 import { obtenerBodegas } from "../services/BodegaService";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebaseConfig";
@@ -20,7 +25,14 @@ const VinosCRUD = () => {
   const [vinos, setVinos] = useState([]);
   const [vinoDialog, setVinoDialog] = useState(false);
   const [deleteVinoDialog, setDeleteVinoDialog] = useState(false);
-  const [vino, setVino] = useState({ nombre: "", tipo: "", bodega: "", descripcion: "", precio: "", imageUrl: "" });
+  const [vino, setVino] = useState({
+    nombre: "",
+    tipo: "",
+    bodega: "",
+    descripcion: "",
+    precio: "",
+    imageUrl: "",
+  });
   const [isEditing, setIsEditing] = useState(false); // Saber si es edición o creación
   const [imageFile, setImageFile] = useState(null);
   const [bodegas, setBodegas] = useState([]);
@@ -39,7 +51,12 @@ const VinosCRUD = () => {
         const data = await getAllVinos();
         setVinos(data);
       } catch (error) {
-        toast.current.show({ severity: "error", summary: "Error", detail: "Error al cargar vinos", life: 3000 });
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
       }
     };
 
@@ -48,7 +65,12 @@ const VinosCRUD = () => {
         const data = await obtenerBodegas();
         setBodegas(data.data.map((b) => ({ label: b.nombre, value: b._id })));
       } catch (error) {
-        toast.current.show({ severity: "error", summary: "Error", detail: "Error al cargar bodegas", life: 3000 });
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Error al cargar bodegas",
+          life: 3000,
+        });
       }
     };
 
@@ -57,7 +79,14 @@ const VinosCRUD = () => {
   }, []);
 
   const openNew = () => {
-    setVino({ nombre: "", tipo: "", bodega: "", descripcion: "", precio: "", imageUrl: "" });
+    setVino({
+      nombre: "",
+      tipo: "",
+      bodega: "",
+      descripcion: "",
+      precio: "",
+      imageUrl: "",
+    });
     setImageFile(null);
     setIsEditing(false);
     setVinoDialog(true);
@@ -84,25 +113,47 @@ const VinosCRUD = () => {
 
       const newVinoData = {
         ...vino,
-        bodega: isEditing ? bodegaSeleccionada : undefined, // Agrega bodega solo si es edición
+        bodega: bodegaSeleccionada, // Agrega bodega solo si es edición
         imageUrl,
       };
-
+      console.log("New vino data es :", newVinoData);
       if (isEditing) {
         await updateVino(vino._id, newVinoData);
         setVinos(vinos.map((v) => (v._id === vino._id ? newVinoData : v)));
-        toast.current.show({ severity: "success", summary: "Éxito", detail: "Vino actualizado", life: 3000 });
+        toast.current.show({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Vino actualizado",
+          life: 3000,
+        });
       } else {
         const newVino = await createVino(newVinoData);
         setVinos([...vinos, newVino]);
-        toast.current.show({ severity: "success", summary: "Éxito", detail: "Vino creado", life: 3000 });
+        toast.current.show({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Vino creado",
+          life: 3000,
+        });
       }
 
       setVinoDialog(false);
-      setVino({ nombre: "", tipo: "", bodega: "", descripcion: "", precio: "", imageUrl: "" });
+      setVino({
+        nombre: "",
+        tipo: "",
+        bodega: "",
+        descripcion: "",
+        precio: "",
+        imageUrl: "",
+      });
       setImageFile(null);
     } catch (error) {
-      toast.current.show({ severity: "error", summary: "Error", detail: "Error al guardar el vino", life: 3000 });
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error al guardar el vino",
+        life: 3000,
+      });
     }
   };
 
@@ -123,21 +174,43 @@ const VinosCRUD = () => {
       await deleteVino(vino._id);
       setVinos(vinos.filter((v) => v._id !== vino._id));
       setDeleteVinoDialog(false);
-      toast.current.show({ severity: "success", summary: "Éxito", detail: "Vino eliminado", life: 3000 });
+      toast.current.show({
+        severity: "success",
+        summary: "Éxito",
+        detail: "Vino eliminado",
+        life: 3000,
+      });
     } catch (error) {
-      toast.current.show({ severity: "error", summary: "Error", detail: "Error al eliminar el vino", life: 3000 });
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error al eliminar el vino",
+        life: 3000,
+      });
     }
   };
 
   const actionBodyTemplate = (rowData) => (
     <>
-      <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editVino(rowData)} />
-      <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => confirmDeleteVino(rowData)} />
+      <Button
+        icon="pi pi-pencil"
+        className="p-button-rounded p-button-success mr-2"
+        onClick={() => editVino(rowData)}
+      />
+      <Button
+        icon="pi pi-trash"
+        className="p-button-rounded p-button-danger"
+        onClick={() => confirmDeleteVino(rowData)}
+      />
     </>
   );
 
   const imageBodyTemplate = (rowData) => (
-    <img src={rowData.imageUrl} alt={rowData.nombre} style={{ width: "80px", borderRadius: "4px" }} />
+    <img
+      src={rowData.imageUrl}
+      alt={rowData.nombre}
+      style={{ width: "80px", borderRadius: "4px" }}
+    />
   );
 
   return (
@@ -146,7 +219,14 @@ const VinosCRUD = () => {
       <div className="card">
         <Toolbar
           className="mb-4"
-          left={() => <Button label="Nuevo Vino" icon="pi pi-plus" className="p-button-success" onClick={openNew} />}
+          left={() => (
+            <Button
+              label="Nuevo Vino"
+              icon="pi pi-plus"
+              className="p-button-success"
+              onClick={openNew}
+            />
+          )}
         />
 
         <DataTable
@@ -165,10 +245,36 @@ const VinosCRUD = () => {
         </DataTable>
       </div>
 
-      <Dialog visible={vinoDialog} style={{ width: "450px" }} header="Detalles del Vino" modal className="p-fluid" onHide={hideDialog}>
+      <Dialog
+        visible={vinoDialog}
+        style={{ width: "450px" }}
+        header="Detalles del Vino"
+        modal
+        className="p-fluid"
+        onHide={hideDialog}
+      >
         <div className="field">
           <label htmlFor="nombre">Nombre</label>
-          <InputText id="nombre" value={vino.nombre} onChange={(e) => setVino({ ...vino, nombre: e.target.value })} required autoFocus />
+          <InputText
+            id="nombre"
+            value={vino.nombre}
+            onChange={(e) => setVino({ ...vino, nombre: e.target.value })}
+            required
+            autoFocus
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="tipo">Bodegas</label>
+          <Dropdown
+            id="bodega"
+            value={bodegaSeleccionada}
+            options={bodegas}
+            onChange={(e) => {
+              console.log("Bodega es : ", e.value);
+              setBodegaSeleccionada(e.value);
+            }}
+            placeholder="Selecciona un tipo"
+          />
         </div>
         <div className="field">
           <label htmlFor="tipo">Tipo</label>
@@ -203,16 +309,36 @@ const VinosCRUD = () => {
         </div>
         <div className="field">
           <label htmlFor="precio">Precio</label>
-          <InputText id="precio" type="number" value={vino.precio} onChange={(e) => setVino({ ...vino, precio: e.target.value })} />
+          <InputText
+            id="precio"
+            type="number"
+            value={vino.precio}
+            onChange={(e) => setVino({ ...vino, precio: e.target.value })}
+          />
         </div>
         <div className="field">
           <label htmlFor="imagen">Imagen</label>
-          <input id="imagen" type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+          <input
+            id="imagen"
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
         </div>
 
         <div className="p-dialog-footer">
-          <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-          <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveVino} />
+          <Button
+            label="Cancelar"
+            icon="pi pi-times"
+            className="p-button-text"
+            onClick={hideDialog}
+          />
+          <Button
+            label="Guardar"
+            icon="pi pi-check"
+            className="p-button-text"
+            onClick={saveVino}
+          />
         </div>
       </Dialog>
 
@@ -223,15 +349,32 @@ const VinosCRUD = () => {
         modal
         footer={
           <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteVinoDialog} />
-            <Button label="Sí" icon="pi pi-check" className="p-button-text" onClick={deleteVinoConfirm} />
+            <Button
+              label="No"
+              icon="pi pi-times"
+              className="p-button-text"
+              onClick={hideDeleteVinoDialog}
+            />
+            <Button
+              label="Sí"
+              icon="pi pi-check"
+              className="p-button-text"
+              onClick={deleteVinoConfirm}
+            />
           </>
         }
         onHide={hideDeleteVinoDialog}
       >
         <div className="confirmation-content">
-          <i className="pi pi-exclamation-triangle mr-2" style={{ fontSize: "2rem" }} />
-          {vino && <span>¿Estás seguro de que quieres eliminar <b>{vino.nombre}</b>?</span>}
+          <i
+            className="pi pi-exclamation-triangle mr-2"
+            style={{ fontSize: "2rem" }}
+          />
+          {vino && (
+            <span>
+              ¿Estás seguro de que quieres eliminar <b>{vino.nombre}</b>?
+            </span>
+          )}
         </div>
       </Dialog>
     </div>

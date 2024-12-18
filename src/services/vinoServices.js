@@ -1,11 +1,15 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:3000/vinos'; // La URL de tu API para vinos
+const API_URL = "http://localhost:3000/vinos"; // La URL de tu API para vinos
 
 // Obtener todos los vinos
 export const getAllVinos = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error al obtener vinos:", error);
@@ -68,46 +72,42 @@ export const getVinoByNombre = async (nombre) => {
   }
 };
 
-
-
-
-
 /////////////////////////////
-
-
 
 // Obtener vinos por tipo
 export const getVinosByTipo = async (tipo) => {
-    try {
-      const response = await axios.get(`http://localhost:3000/vinos/tipo/${tipo}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener vinos por tipo:', error);
-      throw error;
-    }
-  };
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/vinos/tipo/${tipo}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener vinos por tipo:", error);
+    throw error;
+  }
+};
 
-  
+// Obtener vinos con ordenamiento
+export const getVinosConOrden = async (campo = "nombre", orden = "asc") => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/vinos/orden?campo=${campo}&orden=${orden}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener vinos con ordenamiento:", error);
+    throw error;
+  }
+};
 
-  // Obtener vinos con ordenamiento
-export const getVinosConOrden = async (campo = 'nombre', orden = 'asc') => {
-    try {
-      const response = await axios.get(`http://localhost:3000/vinos/orden?campo=${campo}&orden=${orden}`);
-      return response.data;
-    } catch (error) {
-      console.error("Error al obtener vinos con ordenamiento:", error);
-      throw error;
-    }
-  };
-
-  
-
-  export const getVinosConPaginado = async (page, limit) => {
-    try {
-      const response = await axios.get(`${API_URL}/pagina?page=${page}&limit=${limit}`);
-      return response.data;  // Devolver los datos de la respuesta
-    } catch (error) {
-      console.error('Error al obtener vinos paginados:', error);
-      throw error;
-    }
-  };
+export const getVinosConPaginado = async (page, limit) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/pagina?page=${page}&limit=${limit}`
+    );
+    return response.data; // Devolver los datos de la respuesta
+  } catch (error) {
+    console.error("Error al obtener vinos paginados:", error);
+    throw error;
+  }
+};
